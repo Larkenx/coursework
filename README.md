@@ -16,8 +16,8 @@ were:
 -Sorting (Quicksort, Mergesort, Heapsort)
 -Dynamic Programming
 
-1. **[Flood It!]** (https://github.com/Larkenx/coursework/tree/master/data-structures/projects/FloodIt)
-2. **[Implementing a Hash Table]** (https://github.com/Larkenx/coursework/tree/master/data-structures/projects/HashTables)
-3. **[Implementing Heaps]** (https://github.com/Larkenx/coursework/tree/master/data-structures/projects/Heaps)
-4. **[Routing Wires on a Chip (Graph Algorithms)]** (https://github.com/Larkenx/coursework/tree/master/data-structures/projects/RoutingWires)
-5. **[DNA Sequence Alignment (Dynamic Programming)]** (https://github.com/Larkenx/coursework/tree/master/data-structures/projects/DNASequenceAlignment)
+1. [Flood It!](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/FloodIt)
+2. [Implementing a Hash Table](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/HashTables)
+3. [Implementing Heaps](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/Heaps)
+4. [Routing Wires on a Chip (Graph Algorithms)](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/RoutingWires)
+5. [DNA Sequence Alignment (Dynamic Programming)](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/DNASequenceAlignment)
