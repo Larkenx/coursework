@@ -19,11 +19,11 @@ were:
 Here are the projects and assignments most relevant to my coursework:
 
 1. [Flood It!](data-structures/projects/FloodIt)
-2. [Implementing a Hash Table](data-structures/projects/HashTables)
-3. [Implementing Heaps](data-structures/projects/Heaps)
-4. [Routing Wires on a Chip (Graph Algorithms)](data-structures/projects/RoutingWires)
+2. [Implementing a Hash Table](data-structures/projects/HashTables/src/HashTableImp.java)
+3. [Implementing Heaps](data-structures/projects/Heaps/src/HeapImp.java)
+4. [Routing Wires on a Chip (Graph Algorithms)](data-structures/projects/RoutingWires/src/Routing.java)
 5. [DNA Sequence Alignment (Dynamic Programming)](data-structures/projects/DNASequenceAlignment)
-6. [SeamCarving (More Dynamic Programming!)](data-structures/projects/SeamCarving)
+6. [SeamCarving (More Dynamic Programming!)](data-structures/projects/SeamCarving/src/Main.java)
 
 ### Bioinformatics Algorithms (CSCI-B363)
 This course allowed students to use any programming language they were comfortable with, so I used Python. We explored several interesting areas of Bioinformatics including DNA sequence alignment, cyclopeptide sequencing, and evolutionary tree construction from genomes.
@@ -31,6 +31,7 @@ This course allowed students to use any programming language they were comfortab
 While the biological topics were interesting, the computer science topics taught in the course focused on dynamic programming and graph algorithms. These are of particular interest to biologists due to the large search space when dealing with genomes that contain billions of nucleotides.
 
 Most of the *code* I've written for this course is based off of homework problems from a bioinformatics website called [Rosalind](http://rosalind.info/problems/locations/). Here are the solutions to some of those problems:
+
 1. [Finding the Longest Common Sequence](bioinformatics/rosalind-problems/LCS/LCS.py)
 2. [Constructing a DeBruijn Graph](bioinformatics/rosalind-problems/DeBruijn/DeBruijn.py)
 3. [Median String Problem (in Java)](bioinformatics/rosalind-problems/Median String/src/Twelve.java)
