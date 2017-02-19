@@ -9,12 +9,14 @@ important course I took at IU. I learned a lot about various topics and fundamen
 Computer Science data structures. Some of the important things we covered in my class
 were:
 
--Runtime Analysis (Big-O)
--Balanced Binary Search Trees
--Hash Tables, Heaps, Priority Queues
--Graphs and Search Algorithms (BFS, DFS, Dijkstra)
--Sorting (Quicksort, Mergesort, Heapsort)
--Dynamic Programming
+- Runtime Analysis (Big-O)
+- Balanced Binary Search Trees
+- Hash Tables, Heaps, Priority Queues
+- Graphs and Search Algorithms (BFS, DFS, Dijkstra)
+- Sorting (Quicksort, Mergesort, Heapsort)
+- Dynamic Programming
+
+Here are the projects and assignments most relevant to my coursework:
 
 1. [Flood It!](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/FloodIt)
 2. [Implementing a Hash Table](https://github.com/Larkenx/coursework/tree/master/data-structures/projects/HashTables)
