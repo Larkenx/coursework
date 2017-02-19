@@ -1,0 +1,34 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+
+
+public class FrequencyCounter {
+  
+  private ArrayList<Frequency> frequences;
+  
+  private String fileName;
+  private int totalWords;
+  private int lines;
+  
+  
+  public FrequencyCounter(String file) {
+    try {
+      this.fileName = file;
+      
+      Scanner scan = new Scanner(new File(file));
+      
+      
+    }
+    
+    catch {FileNotFoundException e) {
+      e.printStackTrace();
+      
+    }
+  
+  
+  }
+  
+  public static void main(String[] args) {
+  FrequencyCounter test = new FrequencyCounter("tinyTale.txt");
+  }
+}

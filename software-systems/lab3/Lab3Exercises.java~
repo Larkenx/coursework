@@ -1,0 +1,81 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+class Lab3Exercises {
+  public static int fib() {
+    String number;
+    Scanner scan = new Scanner(System.in);
+    
+    System.out.println("Enter the nth number of the Fib Sequence > ");
+    number = scan.nextLine();
+    
+    int n = Integer.valueOf(number);
+    int fibNumber = 0;
+    int fib1 = 0;
+    int fib2 = 0;
+    while (n > 0) {
+      if (fibNumber == 0) { // 1 1 2 3 5 8 13 21
+        fib2 += 1;
+        fibNumber += 1;
+      } else {
+        fibNumber = fib1 + fib2;
+        fib1 = fib2;
+        fib2 = fibNumber;
+      }
+      
+      n -= 1;
+    }
+    return fibNumber;
+  }
+  
+  public static String numbers() {
+    Scanner scan = new Scanner(System.in);
+    int isInt = 10;
+    int i = 0;
+    ArrayList<Integer> numbers = new ArrayList<Integer>();
+    
+    while (isInt == 10) {
+      try {
+        System.out.println("Enter an integer > ");
+        String input = scan.nextLine();
+        int numberInput = 0;
+        numberInput  = Integer.valueOf(input);
+        numbers.add(numberInput);
+      }
+      
+      catch (Exception err) {
+        isInt = 9;
+      }
+   
+      i++;
+    }
+    
+    int sum = 0;
+    for (int nums : numbers) {
+      sum += nums;
+    }
+    
+    int min = numbers.get(0);
+    
+    for (int nums : numbers) {
+      if (min > nums) {
+        min = nums; 
+      }
+    }
+    
+    int max = numbers.get(0);
+    for (int nums : numbers) {
+      if (max < nums) {
+        max = nums;  
+      }
+    }
+    
+    return "Sum: " + sum + " MIN: " + min + " MAX: " + max;
+  }
+  
+  public static void main(String[] args) {
+    // System.out.println(fib());
+    System.out.println(numbers());
+  }
+}

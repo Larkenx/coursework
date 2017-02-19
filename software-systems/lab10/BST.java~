@@ -1,0 +1,37 @@
+public class BST<Key, extends Comparable<Key>, Value> {
+  
+  private Node root;
+  
+  // inner Node class
+  private class Node {
+    
+    private Key key;
+    private Value value;
+    private Node lChild; // left child
+    private Node rChild; // right child
+    
+    private int N; // number of nodes in this subtree, inclusive
+    
+    public Node (Key key, Value val, int N) {}
+    
+  }
+  
+  // Returns size of the tree (the number of nodes under root node)
+  public int size () {
+    return root.N;
+  }
+  
+  // Return the value of a specific key
+  public Value get(Key key) {}
+  
+  // Insert a key/value pair into the tree
+  public void put(Value val, Key, key) {}
+  
+  // Prints the values of the tree
+  public void walk() {}
+  
+  public static void main(String[] args) {
+    Random rand = new Random();
+    BST<Integer, Character> tree = new BST<>();
+  }
+}

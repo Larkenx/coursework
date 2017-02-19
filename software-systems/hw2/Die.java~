@@ -1,0 +1,16 @@
+import java.util.Random;
+
+public class Die {
+  
+  private Random rand; // instance field
+  
+  public Die(Random rand) { // initialize a new Random object in the Constructor
+    this.rand = rand;
+  }
+    
+  public int roll() { // returns a random number between [1,6]
+  // Look at the nextInt(int bound) method of Random 
+    int result = rand.nextInt(7);
+    return result;
+  }   
+}

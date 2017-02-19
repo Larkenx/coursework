@@ -1,0 +1,8 @@
+// The fields for the system class are err, in, and out.
+
+public class HelloWorld
+{
+  public static void main(String[] args) {
+    System.out.print("Hello, world");
+  }
+}

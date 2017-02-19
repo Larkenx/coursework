@@ -1,0 +1,78 @@
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  C212 Spring 16
+//
+//  Homework 6 Template
+//  Due: Friday 3/11 11:59 pm
+//  @Author  Earl Dean
+//
+///////////////////////////////////////////////////////////////////////////////////
+ 
+// These are the imports I used 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JPanel;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+import java.awt.Dimension;
+
+/*
+ * Driver program for randam shape generator app
+ */
+public class ShapeDriver extends JPanel implements KeyListener {
+
+    // Panel constants
+    public final int FRAME_WIDTH = 600;
+    public final int FRAME_HEIGHT = 600;
+
+    private Random random;
+
+    public ShapeDriver() {
+        super(); 
+
+        /* T0-DO: 
+         *  - set up JPanel
+         *  - initialize any other fiels you want to declare and use
+         *  - add the KeyListiner 
+         */
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        // call super class paintComponent method
+        // background will not be colored otherwise
+        super.paintComponent(g);
+
+        // TO-DO use the different Shapes draw methods here
+        // The draw methods in the differnet shapes should take 
+        // The Graphics object should be passed to the Shapes Draw method
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent e) {
+        /* To-DO: 
+         *  - if c, r, or s is pressed draw a cirlce, rectangle or square 
+         *  - repaint the JPanel
+         */ 
+    }
+
+    // do not neet to do anything with this method from KeyListener
+    // but must have since this class implements KeyListiner 
+    @Override
+    public void keyReleased(KeyEvent e) { }
+    
+    // do not neet to do anything with this method from KeyListener
+    // but must have since this class implements KeyListiner 
+    @Override
+    public void keyTyped(KeyEvent e) { }
+
+    // test client
+    public static void main(String[] args) {
+
+    }
+}

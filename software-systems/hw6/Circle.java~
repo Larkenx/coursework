@@ -1,0 +1,44 @@
+import java.awt.Color;
+
+public class Circle extends Shape {
+  
+  private int radius;
+  
+  
+  public Circle(Color fillColor, Color borderColor, int x, int y, int radius) {
+    super(fillColor, borderColor, x, y);
+    this.radius = radius;
+  }
+  
+  public Circle(Color fillColor, int x, int y, int radius) {
+    super(fillColor, x, y);
+    this.radius = radius;
+  }
+  
+  public Circle(int x, int y, int radius) {
+    super(x, y);
+    this.radius = radius;
+  }
+  
+  public double getArea() {
+    return Math.pow(this.radius, 2) * Math.PI;
+  }
+  
+  public double getPerimeter() {
+    return 2 * Math.PI * this.radius;
+  }
+  
+  public String toString() {
+    return "Location: " + "(" + this.getX() + ", " + this.getY() + ")"  +
+      "\nRadius: " + this.radius +
+      "\nArea: " + this.getArea() +
+      "\nPerimeter: " + this.getPerimeter();
+  }
+  
+  public static void main(String[] args) {
+    // Circle testCircle = new Circle(10, 20, 5);
+    // System.out.println(testCircle.toString()); 
+  }
+  
+  
+}

@@ -1,0 +1,34 @@
+import java.util.Scanner;
+
+public class DieSimulation {
+  private Die die;
+  private Counter one;
+  private Counter two;
+  private Counter three;
+  private Counter four;
+  private Counter five;
+  private Counter six;
+  
+  
+  public DieSimulation() {
+    Die dice = new Die();
+    Counter one = new Counter("one");
+    Counter two = new Counter("two");
+    Counter three = new Counter("three");
+    Counter four = new Counter("four");
+    Counter five = new Counter("five");
+    Counter six = new Counter("six"); 
+  }
+  
+  public String run() {
+    Scanner getRolls = new Scanner(System.in);
+    System.out.println("Enter number of rolls: ");
+    int numberOfRolls = getRolls.nextInt();
+    
+    
+    
+    return "";
+    
+  }
+  
+}

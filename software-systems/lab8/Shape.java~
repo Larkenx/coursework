@@ -1,0 +1,29 @@
+import java.awt.Color;
+
+abstract class Shape {
+  
+  private Color fillColor;
+  private Color borderColor;
+  private Boolean isFilled;
+  private Point Location;
+  
+  // The three constructors initialize the instance fields
+  public Shape (Color fillColor, Color borderColor, int x, int y) {
+    this.fillColor = fillColor;
+    this.borderColor = borderColor;
+    this.Location = new Point(x, y); 
+  }
+  
+  public Shape (Color fillColor, int x, int y) {
+  }
+  
+  public void setFillColor(Color c) {}
+  
+  public Color getFillColor() {}
+  
+  public void setBorderColor(Color c) {}
+  
+  public Color getBorderColor() {}
+  
+  public Point getLocation() {}
+}

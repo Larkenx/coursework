@@ -1,0 +1,144 @@
+////////////////////////////////////////////////////////////////////////////////////
+//
+//  C212 Spring 16
+//  Lab 2 
+//  
+//  Released:  1/20/16
+//  Due:       1/25/16 11:59 PM
+//
+//  @Author  Steven Myers | stelmyer
+//  Last Edited: 1/22/2016  
+//
+//
+//  Directions:  Implement the following methods 
+//               
+//               
+//////////////////////////////////////////////////////////////////////////////////
+
+// Note:  Do not need to explicitly import classes from java.lang but wanted to make it explicit 
+// Goal - understand using Static classes - i.e. the Math class was not designed to be Instantiated (make objects) 
+// It is a class that provides functionality and will be used to complete one of the methods
+import java.lang.Math;
+
+public class lab2 {
+  
+  // computes area of a circle when given a radius
+  public static double areaOfCircle(int radius) {
+    double result = (Math.PI * Math.pow(radius, 2));
+    return result;
+  }
+  
+  // computes circumference of a circle
+  public static double circumference(int radius) {
+    double c = (Math.PI * 2 * radius);
+    return c;
+  }
+  
+  // returns a String value of the rectangle's area, perimeter, and the diagonal of the rectangle 
+  // (use Pythagorean Theorem)
+  public static String rectangle(int len, int width) {
+    //   TO-DO
+    int area = len * width;
+    int perimeter = 2 * (len + width);
+    double diagonal = Math.sqrt((Math.pow(len, 2) + Math.pow(width, 2)));
+    String values = "Area: " + area + ", Perimeter: " + perimeter + ", Diagonal: " + diagonal;
+    
+    return values;
+  }
+  
+  // reads a number between 1,000 and 999,999 and prints it with a comma separating the thousands
+  // hint use modulus to save part of the number, then concatenate back to gether as a String
+  public static String addCommas(int num) {
+    String num_string = Integer.toString(num);
+    int length = num_string.length();
+    // Since the numbers only range from 1,000 to 999,999, there is no need to dynamically alter the substring function.
+    String hundreds = num_string.substring(length - 3);
+    String thousands = num_string.substring(0, length - 3);
+    String result = thousands + "," + hundreds;
+    
+    return result;
+  }
+  
+  // given angle in Degrees, convert to radians (hint look at Math class Java doc API)
+  // and return a string of the Sin, Cos, and Tangent of the angle  
+  public static String trigFunctions(double angle) {
+    double toRadians = angle * (Math.PI / 180);
+    double angleSin = Math.sin(toRadians);
+    double angleCos = Math.cos(toRadians);
+    double angleTan = Math.tan(toRadians);
+    
+    String result = "SIN: " + angleSin + ", COS: " + angleCos + ", TAN: " + angleTan;
+    
+    return result;
+  }
+  
+  // change the expressions to compound operators
+  public static void compoundExercises() {
+    System.out.print("Compound Exercises: \n");
+    int result = 0;
+    
+    // Example
+    // result = result + 3; // result is now 3
+    result += 3; // commented out previous expression and changed to compound operator
+    System.out.println(result);
+    
+    // result = result - 1; // result is now 2
+    result -= 1;
+    System.out.println(result);
+    
+    result *= 2; // result is now 4
+    System.out.println(result);
+    
+    // result = result / 2; // result is now 2
+    result /= 2;
+    System.out.println(result);
+    
+    // result = result + 8; // result is now 10
+    // result = result % 7; // result is now 3
+    result += 8;
+    result %= 7;
+    System.out.println(result);
+  }
+  
+  // test client 
+  public static void main(String[] args) {
+    System.out.println("Area of Circle: " + areaOfCircle(10));
+    System.out.println("Circumference: " + circumference(10));
+    System.out.println("Rectangle: " + rectangle(20, 10));
+    System.out.println("Add Commas: " + addCommas(920420));
+    System.out.println("Trig Functions: " + trigFunctions(30));
+    compoundExercises();
+  }
+}
+
+///////////////////////////////////
+//                               //
+// ANSER THE FOLLOWING QUESTIONS //
+//                               //
+///////////////////////////////////
+
+/*
+ * Questions 1-3 are on explicit and implicit casting of some numerical types  
+ *
+ * 1.  What is the type when you multipy a double and an int? 
+ *     - Double
+ * 
+ * 2.  What happens if a method has a paramater of type double, but you pass it an int?
+ *     - The compiler will convert the integer to a double
+ * 
+ * 3.  What happens if a method has a paramater of type int, but you pass it a double?
+ *     - The compiler will raise an error. A double is a superset of integers, not the other way around.
+ * 
+ * 4.  What are the 8 primitive data types in the Java language?
+ *     - Byte, Short, Long, Int, Float, Double, Boolean, Char
+ * 
+ * 5.  Consider the following code snippet.
+ *     int i = 10;
+ *     int n = i++%5;
+ * 
+ *     What are the values of i and n after the code is executed?
+ *     - i is equal to 11 and n is equal to 0.
+ * 
+ *     What are the final values of i and n if instead of using the postfix increment operator (i++), you use the prefix version (++i))?
+ *     - i is equal to 11 and n is equal to 1.
+ */

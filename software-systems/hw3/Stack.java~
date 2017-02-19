@@ -1,0 +1,99 @@
+import java.util.Random;
+
+public class Stack {
+  private Object[] stack; // array of objects
+  private int size; // number of items in stack
+  private int N; // index into array to where the last item inserted
+  
+  public Stack () {
+    stack = new Object[2];
+    size = 0;
+    N = 0;
+  }
+  
+  public boolean isEmpty() { // returns true if stack is empty
+    return (size == 0);
+  }
+  
+  
+  public int size() { // returns size of stack
+    return size;
+  }
+  
+  public void push(Object item) { // insert an item to the stack
+    stack[size] = item;
+    N++;
+    size++;
+    if (size == stack.length) {
+      resize(stack.length * 2);
+    }
+  }
+  
+  public Object pop() { // remove an item
+    if ((size == stack.length / 4.0)) {
+      resize(stack.length / 2);
+    }
+    
+    if (this.isEmpty()) {
+    } else {
+      stack[size - 1] = null;
+      --size;
+      --N;
+     return stack; 
+    }
+    return stack;
+  }
+  
+  private void resize(int n) { //increases or decreases the size of the array by 2
+    Object[] temp = new Object[n];  
+    for (int i = 0; i < N; i++) {
+      temp[i] = stack[i];
+    }
+    stack = temp;
+  }
+  
+  public String toString() { // prints the contents of the stack array
+    String result;
+    
+    if (this.size() == 0) {
+      result = "Stack: [";
+    } else {
+      result = "Stack: [" + stack[0];
+      for (int i = 1; i < N; i++) {
+        result = result + ", " + stack[i];
+      }
+    }
+    return result + "]";
+  }
+  
+  public static void main(String[] args) {
+    Stack testStack = new Stack();
+    Random rand = new Random();
+    
+    for (int i = 0; i < 8; i++) {
+      testStack.push(rand.nextInt(50));
+    }
+    System.out.println(testStack.toString());
+    System.out.println("Size: " + testStack.size());
+    System.out.println(testStack.stack.length);
+    for (int i = 0; i < 8; i++) {
+      testStack.pop();
+    }
+    System.out.println(testStack.toString());
+    System.out.println("Size: " + testStack.size());
+    System.out.println(testStack.stack.length);
+    
+//    System.out.println(testStack.toString());
+//    System.out.println(testStack.isEmpty());
+//    testStack.push("a");
+//    testStack.push(1);
+//    testStack.push("c");
+//    testStack.push(2);
+//    System.out.println(testStack.toString());
+//    System.out.println(testStack.size());
+//    testStack.pop();
+//    testStack.pop();
+//    testStack.pop();
+//    System.out.println(testStack.toString());
+  }
+}

@@ -1,0 +1,30 @@
+
+
+public class MagicSquare {
+  private MagicSquare() {}
+  
+  public static int[][] makeMagicSquare(int N) {
+    int[][] magicSquare = new int[N][N];
+    int col = N / 2; // initial x
+    int row = N - 1; // initial y
+    for (int i = 0; i < Math.pow(N, 2)); i++) {
+    
+    
+    }
+  
+  }
+  
+  public static boolean isMagic(int[][] magic) {
+  
+  }
+  
+  public static void main(String[] args) {
+  
+  }
+  
+  
+  
+  
+  
+}
+

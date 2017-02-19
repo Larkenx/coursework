@@ -1,0 +1,47 @@
+/* Lab 4
+ * 
+ * Username: stelmyer
+ * Name: Steven Myers
+ * Date: 2/5/2016
+ */
+import java.util.Scanner;
+
+public class PointAccumulator {
+  Point[] points; // An array of points
+  
+  public PointAccumulator() { 
+    
+// Constructor
+  }
+  
+  public String run () { // Populates points' array from user input
+    Scanner getStorage = new Scanner(System.in);
+    System.out.println("Enter the number of points you'd like to store: ");
+    
+    if (getStorage.hasNextInt()) {
+      final int test = getStorage.nextInt();
+      points = new Point[test];
+      System.out.println(test + " points ready for storage!");
+      
+      
+      for (int i = 0; i != test; i++) {
+        Scanner getPoints = new Scanner(System.in);
+        System.out.println("Enter the x & y value separated by one space: ");
+        String pointResult = getPoints.nextLine();
+        String[] coordinates = pointResult.split(" ");
+        points[i] = new Point(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1]));      
+      }
+      
+    } else {
+      System.out.println("Invalid Input!");
+      
+    }
+    return "Points stored!";
+  } 
+  
+  public static void main(String[] args) {
+     PointAccumulator test = new PointAccumulator();
+    test.run(); 
+  }
+  
+}
