@@ -1,0 +1,9 @@
+Imagine that you have been assigned to implement a simple sequential search
+on an array. The problem is that you want the search to be as general as possible.
+This means that you need to support arbitrary record and key types.
+Describe ways to generalize the search function to support this goal. Consider
+the possibility that the function will be used multiple times in the same
+program, on differing record types. Consider the possibility that the function
+will need to be used on different keys (possibly with the same or different
+types) of the same record. For example, a student data record might be
+searched by zip code, by name, by salary, or by GPA.

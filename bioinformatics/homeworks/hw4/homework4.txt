@@ -1,0 +1,75 @@
+1) Multiple alignment does not always create an optimal pairwise alignment
+for all of its sequences. If we have the sequences:
+AATT, TTCC, GGAA
+
+No matter how you line up the columns, your multiple alignment will never
+satisfy optimizing the pairwise alignments between each sequence. So, you pick a
+multiple alignment habitually, but it won't match an optimal pairwise alignment with atleast
+one if not 2/3 of the sequences.
+
+Pairwise Alignments:
+(AATT, GGCC) => AATT || GGCC
+(AATT, TTCC) => __TT__
+(AATT, GGAA) => __AA__
+
+Multiple Alignment:
+Habitually choose??
+
+Habitually choose either string as a pairwise alignment, since no alignment
+(assuming affine gap penalties) produces a good result. This is the same for all the other
+
+2) ACTACA and ACAA (using the score = 2 for matches, = -1 for mismatches,
+-7 for gap opening penalty and -1 for gap extension penalty).
+
+s1: ACTACA
+s2: ACAA
+Alignment: AC__AA, Score = -3
+
+Alignment Graph:
+  A C T A C A
+A ↘︎
+C   ↘︎→→
+A         ↘︎
+A           ↘︎
+
+3) The problem with the mid node function is that it can always divide the
+subproblems into uneven areas horizontally (at the position of the middle node
+in the middle column). To combat this, we could take the sum of the number of deletions,
+insertions, and matches and divide them by two to find the (x,y) coordinate that
+should be used for the minimum. Once we find the (x, y) coordinate that is the midpoint,
+instead of dividing horizontally or vertically, we divide the subproblem diagonally, from
+the top-right corner to the bottom-left corner.
+
+4)
+    Greedy Sorting
+ 1. (+1, -3, -4, -2, +6, +7, -5, +8)
+    (+1, +2, +4, +3, +6, +7, -5, +8)
+    (+1, +2, +4, +5, -6, -7, -3, +8)
+    (+1, +2, +3, +7, +6, -5, +4, +8)
+    (+1, +2, +3, +7, +6, -4, +5, +8)
+    (+1, +2, +3, +4, -6, -7, +5, +8)
+    (+1, +2, +3, +4, -6, -5, +7, +8)
+    (+1, +2, +3, +4, +5, +6, +7, +8)
+
+ 2. (+1, -3), (-3, -4), (-4, -2), (-2, 6), (7, -5) (-5, 8)
+
+ 3.
+
+ 4. The minimum number of reversals is 6
+
+5) Yes - we know that the synteny blocks (and the breakpoints within them) are
+exponentially distributed (higher frequency in smaller block sizes), and it follows
+that the distance between fragile regions will be exponential as well.
+
+6)
+
+7) This algorithm is O(n^2).
+
+def sharedKmers(m, n, k):
+    sharedKmers = set()
+    for i in range(0, m - k): // m - k
+        if (m.substring(i, k)) in n: // n - k
+            sharedKmers <- m.substring(i, k)
+    return sharedKmers
+
+8) The matrix is additive since the graph is symmetric/mirrored

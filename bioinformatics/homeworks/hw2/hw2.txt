@@ -1,0 +1,100 @@
+Homework 2
+Name: Steven Myers
+User: stelmyer
+
+1) If we are given the following motifs (AAA, CAT, GAC, ATA), we would have a consensus string of
+AAA since A appears most frequently in all columns of the given motifs. Now, let's find the median string of the motifs, trying each
+given motif as our median...
+  AAA has a minimum of 1.
+  CAT has a minimum of 2.
+  GAC has a minimum of 2.
+  ATA has a minimum of 1.
+So, our consensus string AAA is also a median string (even though we have two median strings here). With k-mers of
+larger length, we will find that there will be fewer cases in which there are more than one median string. It is also not likely one of
+our motifs will indeed be our consensus.
+
+**However, a consensus string does not necessarily have to exist in the set of k-mers. The median string
+DOES have to exist in the set of k-mers, so if we have a case such that the consensus string
+does not exist in the set of k-mers, then it cannot also be the median string.
+
+2) Since obtaining the consensus of motifs guarantees the maximum occurences of each nucleotide in each column, it only follows that
+the consensus will contain the minimum number of differences (the median string) out of all other motifs. We've shown this in problem #1.
+However, Dr. Smart does not address the case in which our motifs are > length 15.
+
+In situations where we have a very large k length and large 1000-nucleotide long strings, we will obtain degenerative motifs which may not be the median strings.
+
+3) Mr Fuzzy's algorithm is as follows...
+
+Input: Dna (Set of DNA Sequences), integer k
+FuzzyMedianString(Dna, k)
+for each string Text in Dna { // For each DNA strand in DNA set
+  d_min <- k × t; // Maximum possible mismatches is the length of k-mers times the number of cases
+  for each k-mer P in Text { // Get each k-mer substring from the strand
+    d <- 0
+    for each string Text’ in Dna such that Text’ ≠ Text { // Get every other strand that isn't the current strand
+      d_min’ <- k // Has a max of k mismatches
+      for each k-mer P’ in Text’ { // For all kmers in all other DNA strands
+        d’ <- HammingDistance(P, P’) // Record the distance between every other kmer across DNA strands
+        if d’ < d_min’ {
+          d_min’ <- d’ // Put the smallest distance in the current min
+        }
+      }
+    }
+  }
+
+   d <- d + d_min’
+   if d < d_min {
+    d_min <- d
+    median <- P
+  }
+}
+Output median
+
+The algorithm is correct! I documented what each step of the algorithm does. The algorithm
+properly compares every kmer in every strand Text in the set of DNA strands, against every other kmer prime.
+It properly records the minimum distance over all the kmers, and returns the k-mer P
+which corresponds to the median string
+
+4) For the Gibbs sampling to use both stands of the DNA (reverse complement), we can
+take the input DNA strand (DNA) and populate all the kmers in the DNA & their reverse complement
+and use that as the pool of possible candidates for the random sampling. We would effectively
+double the possibilities of kmers from the string since we are including the other strand
+
+
+5) The second motif, B, is the the contaminated DNA fragment. This is because the entropy
+    of A is 8.76634844758 and the entropy of B is 12.3914878514. I calculated this using
+    "Entropy.py"
+
+6) Here is my graph: (<=) stands for cycles back to existing node
+                 GGG
+GT=>TA=>AT=>TG==>GG=>GT(<=TG)
+ GTA TAT ATG TGG  GGT  GTG
+
+ The only possible sequence is GTATGGTG.
+
+7) The Eulerian path is: ABCFBEADGHDEHIA. We start at A and prioritize diagonal movement
+over vert/horiz to get the result we want.
+
+8) To deal with this issue, we can create a Eulerian path where nodes are the |reads| - 1 length,
+and edges are the the suffix+prefix of nodes. At each node (represented within an adjacency list),
+we can include BOTH the reverse complement and forward segment of the read at each
+node, so that we can draw edges to other complements.
+
+9) His algorithm is not correct, because removing S` from the pool eliminates the possibility
+of duplicate or cyclic strands (like circular DNA)
+
+10) Here is the complete spectrum for NLYV:
+N     115
+L     113
+Y     163
+V     99
+NL    228
+LY    212
+YV    262
+VN    214
+NLY   391
+LYV   375
+YVN   377
+VNL   327
+NLYV  490
+""    0

@@ -1,0 +1,320 @@
+Lecture: Dynamic Programming continued
+==============================================
+
+* Overview
+   * Memoization
+   * Dynamic Programming (bottom-up)
+   * DNA Sequencing
+
+* Returning to matrix chain multiplication let's look at the
+    recursion tree for chain_ordering([3x2,2x1,1x5,5x5]) 
+    to see what's going on:
+
+    [3x2,2x1,1x5,5x5]
+    | 
+    | 
+    |-[3x2]--[2x1,1x5,5x5]
+    |        |-[2x1]--[1x5,5x5]
+    |        |         |-[1x5]--[5x5]
+    |        |-[2x1,1x5]----------[5x5]
+    |          |-[2x1]--[1x5]
+    |-[3x2,2x1]--------[1x5,5x5]
+    | |-[3x2]--[2x1]   |-[1x5]--[5x5]
+    |
+    |-[3x2,2x1,1x5]--[5x5]
+      |
+      |-[3x2]--[2x1,1x5]
+      |        |-[2x1]--[1x5]
+      |
+      |-[3x2,2x1]--[1x5]
+        |-[3x2]--[2x1]
+
+    Lot's of repetition! aka. *overlapping subproblems*
+    * [3x2,2x1] computed twice
+    * [2x1,1x5] computed twice
+    * [1x5,5x5] computed twice
+    * [3x2] computed 4 times
+    * [2x1] computed 5 times
+    * [1x5] computed 5 times
+    * [5x5] computed 4 times
+
+  * We can avoid the repetition by storing and reusing the answers for
+    subproblems using a technique called *memoization*.
+
+   static Result chain_ordering_memo(Dim[] chain) {
+      Result[][] table = new Result[chain.length+1][chain.length+1];
+      return chain_ordering_memo_helper(chain, 0, chain.length, table);
+   }
+   static Result chain_ordering_memo_helper(Dim[] chain, int begin, int end, 
+                                            Result[][] table)
+   {
+      if (table[begin][end] != null) {
+         return table[begin][end];
+      } else if (end - begin == 1) {
+         Result res = new Result(0, 0, chain[begin], null, null);
+         table[begin][end] = res;
+         return res;
+      } else {
+         Result best_yet = null;
+         for (int split = begin+1; split != end; ++split) {
+            Result left = chain_ordering(chain, begin, split);
+            Result right = chain_ordering(chain, split, end);
+            int cost = left.dim.nrows * left.dim.ncols * right.dim.ncols
+                  + left.cost + right.cost;
+            if (best_yet == null || cost < best_yet.cost) {
+               best_yet = new Result(split, cost, 
+                                     new Dim(left.dim.nrows, right.dim.ncols),
+                                     left, right);
+            }
+         }
+         return best_yet;        
+      }
+   }
+
+  *** student exercise: write a memoized version of cut_rod.
+
+   static int cut_rod_memo(int[] P, int n) {
+      CutResult[] R = new CutResult[n+1];
+      return cut_rod_memo_aux(P, n, R).cost;
+   }
+   
+   static CutResult cut_rod_memo_aux(int[] P, int n, CutResult[] R) {
+      if (R[n] != null) {
+         return R[n];
+      } else if (n == 0) {
+         R[n] = new CutResult(0, 0, null);
+         return R[n];
+      } else {
+         CutResult best = null;
+         for (int i = 1; i != n+1; ++i) {
+            CutResult rest = cut_rod(P, n - i);
+            int cost = P[i] + rest.cost;
+            if (best == null || best.cost < cost) {
+               best = new CutResult(i, cost, rest);
+            }
+         }
+         R[n] = best;
+         return best;
+      }
+   }
+
+  * Dynamic Programming
+    Memoization is a top-down approach. 
+    We can also do it bottom-up, that is, apply "dynamic programming".
+
+   static Result chain_ordering_dyn_prog(Dim[] chain) {
+      Result[][] table = new Result[chain.length+1][chain.length+1];
+      // Base cases: length 1 chains
+      for (int start = 0; start != chain.length; ++start) {
+         int end = start + 1;
+         table[start][end] = new Result(0, 0, chain[start], null, null);
+      }
+      // Recursive cases: length 2 and larger chains
+      for (int len = 2; len != chain.length + 1; ++len) {
+         for (int start = 0; start != chain.length - len + 1; ++start) {
+            int end = start + len;
+            Result best = null;
+            for (int split = start + 1; split != end; ++split) {
+               Result left = table[start][split];
+               Result right = table[split][end];
+               int cost = left.dim.nrows * left.dim.ncols * right.dim.ncols
+                     + left.cost + right.cost;
+               if (best == null || cost < best.cost) {
+                  best = new Result(split, cost, 
+                                    new Dim(left.dim.nrows, right.dim.ncols),
+                                    left, right);
+               }
+            }
+            table[start][end] = best;
+         }
+      }
+      return table[0][chain.length];
+   }
+
+  *** student exercise: write a bottom-up version of cut_rod.
+
+    We can start with n=0 (no dependencies) and then
+    proceed on up in rod sizes.
+
+	static int cut_rod_dyn_prog(int[] P, int n) {
+		CutResult[] R = new CutResult[n+1];
+		R[0] = new CutResult(0, 0, null);
+		for (int j = 1; j != n+1; ++j) {
+			CutResult best = null;
+			for (int i = 1; i != j+1; ++i) {
+				CutResult rest = cut_rod(P, j - i);
+				int cost = P[i] + rest.cost;
+				if (best == null || best.cost < cost) {
+					best = new CutResult(i, cost, rest);
+				}
+			}
+			R[j] = best;
+		}
+		return R[n].cost;
+	}
+
+  * The time complexity of dyn_prog_cut_rod is O(n^2) because
+    of the double-nested loops.
+   
+* Recap: 
+    * when to apply dynamic programming?
+       * The problem is an optimization problem, i.e., find the best solution
+	 among many possible solutions, and
+       * optimal substructure, and
+       * overlapping subproblems
+	 * The total number of subproblems needs to be
+	   small (like polynomial) to make sure the space consumption
+	   is reasonable.
+	 * There needs to be significant reuse of the subproblems
+	   to make the memoization/table worthwhile.
+  * Develop a recursive solution and test correctness.
+  * Change to memoized or bottom-up (dynamic programming) for efficiency.
+
+* Running time of dynamic programming depends on the number of
+  subproblems times the number of choices that need to be
+  considered per problem.
+
+  Consider the subproblem graph. The number of choices is the
+  out-degree and the number of subproblems is the number of vertices.
+    
+* Introduce DNA Sequence Alignment project
+
+  * A strand of DNA is a string of molecules called bases: one of
+    adenine (A), guanine (G), cytosine (C), and thymine (T). Biologists
+    are interested in comparing the DNA of different organisms and
+    determining how similar they are.
+
+  * One way to measure how similar two strands of DNA is to see how
+    well they "align". That is, we try to line up the two sequences
+    such that we have as many matching characters across from each
+    other as possible. We can insert gaps (written as underscores) in
+    either sequence to try to help them line up.
+
+  * The similarity of two X and Y strands is the "score" of
+    the best alignment. The score for one location i
+    is computed as follows:
+
+    static int match(char c1, char c2) {
+        if (c1 == '_' || c2 == '_') {
+            return -1;
+        } else if (c1 == c2) {
+            return 2;
+        } else {
+            return -2;
+	}
+    }
+
+    static int score(char[] X, char[] Y) {
+        int total = 0;
+        for (int i = 0; i != X.length; ++i) {
+            total += match(X[i], Y[i]);
+	}
+        return total;
+    }
+
+  * Example alignment:
+
+    Inputs:
+      GATCGGCAT
+      CAATGTGAATC
+
+    An alignment:
+      GA_TCGGCA_T_
+       | | |  | | 
+      CAAT_GTGAATC
+      -+*+*+--+*+*
+      score = (5*2) + (3*-2) + (4*-1) = 0
+
+    A better alignment:
+      _GA_TCG_GCA_T_
+        | | | | | |
+      C_AAT_GTG AATC
+      **+*+*+*+*+*+*
+      score = (6*2) + (8*-1) = 4
+
+  * Another example alignment:      
+    
+    Inputs:
+      GAATTCAGTTA
+      GGATCGA
+
+    An alignment:
+      GAATTCAGTTA
+      | | || |  |
+      GGA_TC_G__A
+      score = (6*2) + (1*-2) + (4*-1) = 6
+
+    Another alignment with the same score:
+      G_AATTCAGTTA
+      |  | || |  |
+      GG_A_TC_G__A
+      score = (6*2) + (0*-2) + (6*-1) = 6
+
+  * Recursively enumerate all of the solutions
+
+    - We can choose among the following options for the location
+      in the alignment:
+      a) Take a character from each string
+
+        Inputs:
+          X=GAATTCAGTTA
+          Y=GGATCGA
+
+        Partial Output
+          G     rest of X = AATTCAGTTA
+          |
+          G     rest of Y = GATCGA
+
+      b) Take a character from X and insert a gap on the other side
+
+        Partial Output
+          G     rest of X = AATTCAGTTA
+          
+          _     rest of Y = GGATCGA
+
+      c) Insert a gap in the first string and take a character from Y
+
+        Partial Output
+          _     rest of X = GAATTCAGTTA
+          
+          G     rest of Y = GATCGA
+
+    - For each choice, recursively process the rest of X and Y,
+      finding the score for the rest, then add in the score
+      for the current choice.
+
+    - Return the max of the different choices.
+
+
+  * Instead of using the entire rest of X and Y
+    as the inputs to the subproblems, we can simply
+    use two indices, i and j, to mark how far into
+    X and Y we currently are.
+
+    Then to memoize the results, we can use a 
+    2D table indexed by i and j.
+
+    T[0][0] = 0
+    T[i][j] = max(M,I,D) where
+       M = T[i-1][j-1] + match(X[i-1], Y[j-1])
+       I = T[i][j-1] - 1
+       D = T[i-1][j] - 1
+
+    Example:
+
+            Y =        G     G     A
+            j = 0   |  1  |  2  |  3
+              ------------------------
+      X i = 0 |   0 |I:-1 |I:-2 |I:-3
+        G   1 |D:-1 |M:2  |M:1  |I:0
+        A   2 |D:-2 |D:1  |M:0  |M:3
+        A   3 |D:-3 |D:0  |I:-1 |D:2
+
+        A solution:
+           X= _ G A A
+                | |
+           Y= G G A _
+           score = 2
+
+  * What's the time complexity? Answer: O(mn)
+  * What the space complexity? Answer: O(mn)

@@ -1,0 +1,92 @@
+% LaTeX file for a 1 page document
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{listings}
+
+\lstdefinestyle{basic}{showstringspaces=false,columns=fullflexible,language=Python,
+escapechar=@,xleftmargin=1pc,%
+%basicstyle=\small\bfseries\itshape,%
+%keywordstyle=\underbar,
+mathescape=true,%
+lineskip=-1pt,%
+keepspaces=true,%
+%basicstyle=\small\sffamily,%
+basicstyle=\footnotesize\ttfamily,%
+commentstyle=\mdseries\rmfamily,%
+morekeywords={class,object,with,fun,new,end,int,bool,string},%
+deletekeywords={error,apply,values,and,equal,eq},%
+moredelim=**[is][\color{red}]{`}{`}
+}
+\lstset{style=basic}
+
+\title{C343 Project 5 - Compression using Priority Queues}
+\date{Due 11:59pm, Oct. 28, 2016}
+
+\begin{document}
+\maketitle
+
+\section{Assignment Description}
+
+This week we will see an application of the greedy strategy in the
+problem of compressing strings. Suppose the string to be compressed
+contains $26$ different characters from the English alphabet. We need
+to give each character a code. One example of such a code is ASCII. If
+we used a fixed length code like ASCII, each character can be
+represented using $5$ bits and the total number of bits required is
+\emph{string length * 5}. Instead we can take advantage of the fact
+that not all characters occur with the same frequency. A variable
+length code saves bits by assigning a smaller code to the most
+frequently occurring characters. For example, we might use just a
+single bit for the most frequently occurring character and more than
+$5$ bits for the least frequent character. In this assignment, we use
+the variable length code called \emph{Huffman Code}. The Huffman
+method builds up a tree whose leaves represent the characters in the
+string along with their frequencies. The code for a character is the
+path from the root to the leaf that represents that character. Huffman
+trees can be built using priority queues which internally use
+min-heaps.
+
+\section{Your Task}
+
+We have given you the Huffman Tree building code and the
+\texttt{PriorityQueue} class. The \texttt{PriorityQueue} class uses a
+heap internally and we need you to implement the Heap interface that has the following methods
+\begin{enumerate}
+\item \texttt{minimum} - returns the minimum element in the heap
+\item \texttt{extractMin} - removes and returns the element with the smallest key from the heap
+\item \texttt{insert(element)} - inserts \texttt{element} into the heap
+\item \texttt{minHeapify(i)} - move the element at position at \texttt{i} to the correct position
+\item \texttt{buildMinHeap} - rearrange \texttt{data} field so that it represents the min-heap
+\end{enumerate}
+
+\section{Running Your Code}
+\begin{itemize}
+\item To compile, execute \texttt{javac -cp . Driver.java}
+\item To run, execute \texttt{java -cp . Driver}
+
+This file runs a the execHuff method on a simple dictionary that maps each character to its frequrency in a string.
+\item To test
+You can run the provides test cases with \texttt{java -cp . Driver test}.
+\end{itemize}
+
+\section{Deliverables}
+
+Your repo's folder should contain all the files from the zip.  These
+are the ones you need to modify:
+\begin{itemize}
+\item \texttt{HeapImp.java} - containing your solution and tests
+\item \texttt{README.md} - where you explain your code.
+%\item Textbook exercises - put these in \texttt{README.md}.
+\item Hours - record the number of hours you spent on writing and
+  debuging your code. Put your answers in the \texttt{README.md}.
+\end{itemize}
+
+\section{Testing}
+
+ We encourage you to write
+your own unit tests. A good way to do this is to use \textbf{assert}
+statements.
+\end{document}

@@ -1,0 +1,6 @@
+Binary Search Trees
+Motivation: Flood It! and the Set ADT
+
+                    Array  | LinkedList | Sorted Array
+MemberShip Test     O(n)   |    O(n)    |    O(logn)
+insertion           O(1)   |    O(1)    |     O(n)

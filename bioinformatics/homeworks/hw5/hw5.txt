@@ -1,0 +1,135 @@
+1)
+D:
+   A   B    C    D
+A  0  1.0  0.5  1.3
+B 1.0  0   1.1  1.9
+C 0.5 1.1   0   1.2
+D 1.3 1.9  1.2   0
+
+// Sum the rows
+TotalDistanceD:
+A  2.8
+B   4
+C  2.8
+D  4.4
+
+// Construct neighbor joining matrix
+D*:
+    A     B     C     D
+A -5.6  -4.8  -3.6  -4.6
+B -4.8   -8   -3.4  -4.6
+C -3.6  -3.4  -5.6  -4.8
+D -4.6  -4.6  -4.8  -8.8
+
+Delta(i,j) = (2.8 - 4.4) / 2 = -0.8
+LimbLength(i) = .5*(1.2 + -0.8) = 0.2
+LimbLength(j) = .5*(1.2 + 0.8) = 1
+
+Di,j = 1.2
+
+   m  k   l
+m  0 1.2 0.9
+k  0  0  1.0
+l  0 1.0  0
+
+Based on the neighbor joining theorem, the smallest off-diagonal element
+is the intersection of D,C in D*. In D, these two are neighboring leaves. Therefore,
+this is an additive matrix.
+
+2)
+Dr Smart is correct because we know that in order for a matrix to be additive, there
+must exist a minimum off-diagonal element in D*, and subsequently the pair (i,j) in
+D is adjacent to one another. Since the limb length takes the minimum value of
+(Dij + Dik - Djk) / 2 over all the leaves i and k, we know that in an additive tree
+the minimum off-diagonal element will be our neighboring adjacent pair, and
+the sum of the two limb lengths will just be equal to Dij
+
+3) Runtime Analysis: n^2 * nlogn
+I am not totally certain nlogn is correct. It is whatever (n-1)^2 is repeated over and over again.
+I think that's nlogn.
+
+Input: Distance matrix Dij on n species (leaves).
+SmartAdditivePhylogeny(D, n)
+For each leaf i // N
+    Compute LimbLength(i)
+For each pair of leaves i and j  // N^2
+    if Dij = LimbLength(i) + LimbLength(j)
+        Create the node m as the common ancestor of i and j
+        Compute the distance from m to each leaf k (≠ i or j), Dmk <- Dik- LimbLength(i)
+        Construct D’ (with n-1 leaves) by adding m and removing i and j from D
+        Tree’ <- SmartAdditivePhylogeny(D’, n-1) // (n-1)^2 OR nlogn?
+        Join i and j with m in Tree’, and form Tree
+        Return(Tree)
+Output “D is not an additive matrix.”
+
+4)
+His algorithm is almost correct. He does not properly traverse the right
+subtree. He only counts counts the character of T`, instead of recursing using
+the Small Parismony function on the right subtree, T` like he does with the left
+subtree. This makes it so that the left subtree every recursion will be the only one considered - not the right subtree,
+or at least, only the root node of the right subtree will be considered.
+
+5)
+Input: Set of points, an integer k
+Returns whether or not there is a solution to the good clustering problem (T or F)
+PolynomialGoodClustering(points, k):
+    n = # number of points
+    partitions = list(list() * k) // list containing k lists
+    if (n < k) return false;
+    count <- 0
+    notDone = points
+    while (count != k):
+        center <- notDone[0];
+        remove center from notDone
+        minSoFar <- negative inf
+        foreach point in notDone:
+            if (minSoFar > distanceBetween(point, center)):
+                minSoFar = distanceBetween(point, center)
+        partition[count].add(center)
+        partition[count].add(points[minSoFar])
+        remove minSoFar from notDone
+        // Find avg distance between all points in partition
+        avg = distanceBetweenAllPoints(partion[count])
+        for point in notDone:
+            if (distanceBetween > avg)
+                count++
+        if (notDone is empty) return false
+    return true;
+
+6)
+
+7) Since all of the points lay on a line, we can just use equidistant centers
+spread throughout the line. Once we place them all the first time, we can begin to
+move the proposed centers based on the nearest points to the assumed centers. The
+algorithm might look something like this:
+
+Input: Set of all points, integer k representing number of centers.
+KMeansCluster(points, k):
+    // (let's assume it's from x=minPoint,x=maxPoint and y=0). This could be
+    // reversed where x = 0 and y is changing
+    points.sort() // sort ascending from leftmost(or topmost) to rightmost(bottom)
+    partitions <- list(list() * k) // list of k lists
+    for i = 0 to k:
+        partitions[i] <- points.subset(i, |points| / k)
+    // we have initialized our partitions as equidistant portions
+    // we can now generate averages for each partition's points, and reassign points that are outliers
+    kmeans <- empty
+    for part in partitions:
+        kmeans <- avg(part)
+    for point in points:
+        minSoFar <- pos.infinity
+        for average in kmeans:
+            if (distance(point, average) < minSoFar)
+                minSoFar <- distance(point, average)
+        assign point to partition with minSoFar average.
+    if any partitions are empty, remove largest offending point from any of the partitions and reassign the partition mean distance to be that point
+
+8)
+
+9) Not necessarily - because the distance between two clusters may not be as close
+as some other clusters. If we have three clusters, one cluster's distance might be
+below the distance threshold of another. In the event we have two clusters, this
+will work.
+
+10) suffix tree edges (in order):
+ssippi,si, ppi, ssippi, i, ppi, s, p, pi, i, mississippi, i, ssi, ssippi, ppi, ppi

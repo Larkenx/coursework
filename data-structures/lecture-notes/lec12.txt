@@ -1,0 +1,343 @@
+Lecture: Dynamic Programming
+============================
+
+Overview
+--------
+* recursive solutions to problems with optimial substructure
+* memoization for problems with overlapping subproblems
+* dynamic programming, i.e. bottom-up memoization
+
+* Optimization problems: looking for the best solution among
+  many possible solutions.
+
+* Example: the matrix chain multiplication problem
+
+    recall matrix multiplication
+    A_3x2    B_2x1  C_3x1
+    [1 2]  * [1]  = [ 6]
+    [3 4]    [3]    [15]
+    [5 6]           [23]
+
+    Time complexity for matrix multiply:
+        Given A_mk * B_kn, the time complexity is O(mkn)
+
+    Consider the following sequence (chain) of multiplications
+    A_mn * B_no * C_op * D_pq
+
+    Because multiplication is associative, we can perform these
+    multiplications in any order an get the same answer.
+    A_mn * (B_no * (C_op * D_pq))
+    (A_mn * B_no) * (C_op * D_pq)
+    ((A_mn * B_no) * C_op) * D_pq
+    Suppose we have the matrix sizes:
+    3x2 * 2x1 * 1x5 * 5x5
+
+    3x2 * (2x1 * (1x5 * 5x5)) = 30 + (10 + 25) = 65
+    (3x2 * 2x1) * (1x5 * 5x5) = (6 + 25) + 15 = 46
+    ((3x2 * 2x1) * 1x5) * 5x5 = 6 + 15 + 25*3 = 96
+
+    We'll write a recursive function to figure out the best
+    order in which to perform a chain of multiplications.
+
+    The input is an array of matrix dimensions.
+
+     class Dim {
+        Dim(int r, int c) { nrows = r; ncols = c; }
+        int nrows; int ncols;
+     }
+
+     The output is an object of the following Result class which
+	  records all of our choices and the associated cost.
+
+     class Result {
+        Result(int s, int c, Dim d, Result l, Result r) {
+           split = s; cost = c; dim = d; left = l; right = r;
+        }
+        int split; int cost; Dim dim; Result left; Result right;
+     }
+
+     The base case handles chains of length 1, which have 0 cost.
+
+     The recursive case considers all ways to split the chain.
+     For each split choice, we recursively solve the two subproblems
+     and compute the total cost. We split choice with the lowest
+     cost is the one we return.
+
+     static Result chain_ordering(Dim[] chain, int begin, int end) {
+        if (end - begin == 1) {
+           return new Result(0, 0, chain[begin], null, null);
+        } else {
+           Result best_yet = null;
+           for (int split = begin+1; split != end; ++split) {
+              Result left = chain_ordering(chain, begin, split);
+              Result right = chain_ordering(chain, split, end);
+              int cost = left.dim.nrows * left.dim.ncols * right.dim.ncols
+                    + left.cost + right.cost;
+              if (best_yet == null || cost < best_yet.cost) {
+                 best_yet = new Result(split, cost, 
+                                       new Dim(left.dim.nrows, right.dim.ncols),
+                                       left, right);
+              }
+           }
+           return best_yet;
+        }
+     }
+
+* Definition: optimal substructure
+    A problem has optimal substructure if an optimal solution to the
+    problem is based on optimal solutions to subproblems.
+
+    1. every solution involves making a choice that leaves
+       one or more subproblems to be solved. Such as the split choice
+       in matrix chain multiplication.
+    2. assume that the choice has been made
+    3. characterize the space of subproblems
+    4. show that using optimal solutions to the subproblems
+      always gives you a better solution for the overall problem
+      then using non-optimal solutions to the subproblems.
+
+    Real-life counter example: choosing an outfit to wear in the morning.
+
+* Pattern for recursive solution to optimal substructure
+  1. figure out how to identify sub-problems
+     e.g., start and end of matrix chain
+  2. base case handles smallest sub-problems
+     e.g., chains of length 1
+  3. recursive case
+     a) try all possible choices of decomposing current problem into subproblems
+     b) recursively solve the subproblems
+     c) compute the 
+
+
+* The rod-cutting problem
+  Given 
+  1) a rod of length n and
+  2) a price function that maps rod-lengths (integers) to dollars, 
+  How should you cut up the rod to maximize the amount of money?
+
+  Example table:
+  length: 1  2  3  4  5  6  7  8  9 10
+  price:  1  5  8  9 10 17 17 20 24 30
+
+  Let p_i be the price for a continuous rod of length i
+  (the second row in the above table).
+
+  Let r_n be the optimal total price for a rod of length n.
+
+  n | r_n
+  --------
+  1 | 1   (no cuts)
+  2 | 5   (no cuts)
+  3 | 8   (no cuts)
+  4 | 10 = p_2 + p_2
+  5 | 13 = p_2 + p_3
+  6 | 17  (no cuts)
+  7 | 18 = p_1 + p_6
+  8 | 22 = p_2 + p_6
+
+  *** student exercise: Write a recursive function that solved
+    the rod cutting problem
+
+  Recursive solution:
+    * For each possible first cut, recursively solve the rest,
+      then take the max of the possibilities.
+    * r_n = max_{1<=i<=n} (p_i + r_{n-i})
+
+   class CutResult {
+      CutResult(int c, int amt, CutResult r) { cut = c; cost = amt; rest = r; }
+      int cut;
+      int cost;
+      CutResult rest;
+   }
+
+   static CutResult cut_rod(int[] P, int n) {
+      if (n == 0) {
+         return new CutResult(0, 0, null);
+      } else {
+         CutResult best_yet = null;
+         for (int i = 1; i != n+1; ++i) {
+            CutResult rest = cut_rod(P, n - i);
+            int cost = P[i] + rest.cost;
+            if (best_yet == null || best_yet.cost < cost) {
+               best_yet = new CutResult(i, cost, rest);
+            }
+         }
+         assert best_yet != null;
+         return best_yet;
+      }
+   }
+
+  * Returning to matrix chain multiplication let's look at the
+    recursion tree for chain_ordering([3x2,2x1,1x5,5x5]) 
+    to see what's going on:
+
+    [3x2,2x1,1x5,5x5]
+    | 
+    | 
+    |-[3x2]--[2x1,1x5,5x5]
+    |        |-[2x1]--[1x5,5x5]
+    |        |         |-[1x5]--[5x5]
+    |        |-[2x1,1x5]----------[5x5]
+    |          |-[2x1]--[1x5]
+    |-[3x2,2x1]--------[1x5,5x5]
+    | |-[3x2]--[2x1]   |-[1x5]--[5x5]
+    |
+    |-[3x2,2x1,1x5]--[5x5]
+      |
+      |-[3x2]--[2x1,1x5]
+      |        |-[2x1]--[1x5]
+      |
+      |-[3x2,2x1]--[1x5]
+        |-[3x2]--[2x1]
+
+    Lot's of repetition!
+    * [3x2,2x1] computed twice
+    * [2x1,1x5] computed twice
+    * [1x5,5x5] computed twice
+    * [3x2] computed 4 times
+    * [2x1] computed 5 times
+    * [1x5] computed 5 times
+    * [5x5] computed 4 times
+    
+  * We can avoid the repetition by storing and reusing the answers for
+    subproblems using a technique called *memoization*.
+
+   static Result chain_ordering_memo(Dim[] chain) {
+      Result[][] table = new Result[chain.length+1][chain.length+1];
+      return chain_ordering_memo_helper(chain, 0, chain.length, table);
+   }
+   static Result chain_ordering_memo_helper(Dim[] chain, int begin, int end, 
+                                            Result[][] table)
+   {
+      if (table[begin][end] != null) {
+         return table[begin][end];
+      } else if (end - begin == 1) {
+         Result res = new Result(0, 0, chain[begin], null, null);
+         table[begin][end] = res;
+         return res;
+      } else {
+         Result best_yet = null;
+         for (int split = begin+1; split != end; ++split) {
+            Result left = chain_ordering(chain, begin, split);
+            Result right = chain_ordering(chain, split, end);
+            int cost = left.dim.nrows * left.dim.ncols * right.dim.ncols
+                  + left.cost + right.cost;
+            if (best_yet == null || cost < best_yet.cost) {
+               best_yet = new Result(split, cost, 
+                                     new Dim(left.dim.nrows, right.dim.ncols),
+                                     left, right);
+            }
+         }
+         return best_yet;        
+      }
+   }
+
+  *** student exercise: write a memoized version of cut_rod.
+
+   static int cut_rod_memo(int[] P, int n) {
+      CutResult[] R = new CutResult[n+1];
+      return cut_rod_memo_aux(P, n, R).cost;
+   }
+   
+   static CutResult cut_rod_memo_aux(int[] P, int n, CutResult[] R) {
+      if (R[n] != null) {
+         return R[n];
+      } else if (n == 0) {
+         R[n] = new CutResult(0, 0, null);
+         return R[n];
+      } else {
+         CutResult best = null;
+         for (int i = 1; i != n+1; ++i) {
+            CutResult rest = cut_rod(P, n - i);
+            int cost = P[i] + rest.cost;
+            if (best == null || best.cost < cost) {
+               best = new CutResult(i, cost, rest);
+            }
+         }
+         R[n] = best;
+         return best;
+      }
+   }
+
+  * Dynamic Programming
+    Memoization is a top-down approach. 
+    We can also do it bottom-up, that is, apply "dynamic programming".
+
+   static Result chain_ordering_dyn_prog(Dim[] chain) {
+      Result[][] table = new Result[chain.length+1][chain.length+1];
+      // Base cases: length 1 chains
+      for (int start = 0; start != chain.length; ++start) {
+         int end = start + 1;
+         table[start][end] = new Result(0, 0, chain[start], null, null);
+      }
+      // Recursive cases: length 2 and larger chains
+      for (int len = 2; len != chain.length + 1; ++len) {
+         for (int start = 0; start != chain.length - len + 1; ++start) {
+            int end = start + len;
+            Result best = null;
+            for (int split = start + 1; split != end; ++split) {
+               Result left = table[start][split];
+               Result right = table[split][end];
+               int cost = left.dim.nrows * left.dim.ncols * right.dim.ncols
+                     + left.cost + right.cost;
+               if (best == null || cost < best.cost) {
+                  best = new Result(split, cost, 
+                                    new Dim(left.dim.nrows, right.dim.ncols),
+                                    left, right);
+               }
+            }
+            table[start][end] = best;
+         }
+      }
+      return table[0][chain.length];
+   }
+
+  *** student exercise: write a bottom-up version of cut_rod.
+
+    We can start with n=0 (no dependencies) and then
+    proceed on up in rod sizes.
+
+	static int cut_rod_dyn_prog(int[] P, int n) {
+		CutResult[] R = new CutResult[n+1];
+		R[0] = new CutResult(0, 0, null);
+		for (int j = 1; j != n+1; ++j) {
+			CutResult best = null;
+			for (int i = 1; i != j+1; ++i) {
+				CutResult rest = cut_rod(P, j - i);
+				int cost = P[i] + rest.cost;
+				if (best == null || best.cost < cost) {
+					best = new CutResult(i, cost, rest);
+				}
+			}
+			R[j] = best;
+		}
+		return R[n].cost;
+	}
+
+  * The time complexity of dyn_prog_cut_rod is O(n^2) because
+    of the double-nested loops.
+   
+* When to apply dynamic programming?
+    * optimal substructure, and
+    * overlapping subproblems
+
+* Overlapping subproblems:
+      * The total number of subproblems needs to be
+        small (like polynomial) to make sure the space consumption
+        is reasonable.
+      * There needs to be significant reuse of the subproblems
+        to make the memoization/table worthwhile.
+
+* Running time of dynamic programming depends on the number of
+  subproblems times the number of choices that need to be
+  considered per problem.
+
+  Consider the subproblem graph. The number of choices is the
+  out-degree and the number of subproblems is the number of vertices.
+    
+* Dynamic Programming
+  - The problem is an optimization problem, i.e., find the best solution
+    among many possible solutions.
+  - Problem exhibits optimal substructure and overlapping subproblems
+  - Develop a recursive solution and test correctness.
+  - Change to memoized or bottom-up (dynamic programming) for efficiency.

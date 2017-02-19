@@ -1,0 +1,76 @@
+* For the following problems, the use of an underscore indicates a subscript.
+
+3.8)
+(a) For T(n) = c_1*n, an upper bound f(n) would be 2c*n since for all n >= 0, c_1*n <= 2*c_1*n.
+    Therefore, T(n) is in O(n) for n_0 = 0 and c = c_1. A lower bound g(n) would be (c*n)/2 for all n >= 0,
+    since c_1*n >= (c*n)/2. T(n) is in Ω(n) for n_0 = 0 and c = c_1.
+
+(b) T(n) = c_2*n^3 + c_3
+    Upper bounds: f(n) = c*n^3. T(n) <= f(n) where n_0 = 1 and c = (c_2 + c_3). Therefore, T(n) is in O(n^3)
+    Lower bounds: g(n) = c*n^3. T(n) >= g(n) where c = c_2 and n_0 = 0. Therefore, T(n) is in Ω(n^3)
+
+(c) T(n) = c_4(nlogn)+c_5(n)
+    Upper bounds: f(n) = c*(nlogn). T(n) <= f(n) where n_0 = 2 and c = (c_4 + c_5). Therefore, T(n) is in O(nlogn)
+    Lower bounds: g(n) = c(nlogn) - cn. T(n) >= g(n) where c = (c_4 + c_5) and n_0 = 0. Therefore, T(n) is in Ω(nlogn)
+
+(d) T(n) =  c6*2^n + c7*n^6
+    Upper bounds: f(n) = c*2^n. T(n) <= f(n) where n_0 = 31 and c = (c_6 + c_7). T(n) is in O(2^n).
+    Lower bounds: g(n) = c*2^n - c*n^6. T(n) >= g(n) where n_0 = 1 and c = (c_6 + c_7). T(n) is in Ω(2^n).
+
+3.10)
+(a) Is 2*n = Θ(3n)? Explain why or why not.
+    -Yes, because there exists a k_1 and a k_2 such that k_2*3n > 2*n > k_1*3n, (e.g k_2 = 2, k_1 = 0.5, and n = 2.)
+
+(b) Is 2^n = Θ(3^n)? Explain why or why not.
+    - No, because there will exists no such constant for all n > 1 such that c*3^n < 2^n.
+
+3.12)
+(a)T(n) = 2. Θ(1) since assignment is a constant-time action.
+
+(b) T(n) = 3n + 1, so T(n) is in Θ(n).
+
+(c) T(n) = n^2 + 1, so T(n) is in Θ(n^2).
+
+(d) T(n) = (3n-1)^2, so T(n) is in Θ(n).
+
+(e) T(n) =  n*(logn) + 1, so T(n) is in Θ(nlogn).
+
+(f) T(n) = logn * (n), so T(n) is in Θ(nlogn).
+
+(g) T(n) = n * (n + nlogn) = n^2 + (n^2)logn, so T(n) is in Θ((n^2)*logn)
+
+
+3.13) If f(n) exists in O(h(n)), then f(n) exists in Θ(h(n)) iff f(n) exists in Ω(h(n)).
+        This is because we have two conditional statements (if f(n) => O(h(n))) && (if f(n) => Ω(h(n))),
+        which is by definition a biconditional statement.
+
+5.2)
+
+Base Case: Let n be the number of degree 2 nodes. If n=1, we have only the root node and two leaves.
+Since the numbers of leaves (l) is equal to 2, n = l - 1. Our assumption holds true for the base case.
+For n=2, we have two nodes. The root node has one leaf, and one internal node. The internal node that follows has two leaves.
+When n=2, l=3 and n = l - 1.
+
+Induction Hypothesis: Assume that any binary tree T containing n - 1 degree 2 nodes contains n leaves.
+
+Induction Step: Given a tree T with n degree 2 nodes, select a degree 2 node E. Remove both of E's children, making E a leaf.
+Let's call the new tree T`. T` has n - 1 degree 2 nodes. We can now assume from the induction hypothesis that T` has n leaves.
+Now, let's add E's children back. We once again have tree T with n degree 2 nodes. Since T` has n leaves, we can only assume
+that T has n+2 leaves since we just added two. However, since E in T` was counted as a leaf and is now a degree 2 node, we
+deduct one from our leaves. Thus, we have n+1 leaves whenever we have n number of degree 2 nodes.
+
+5.15)
+(a) Show the BST that results from inserting the values 15, 20, 25, 18, 16, 5, and 7 (in that order).
+- (( 5 ( 7 )) 15  ((( 16 ) 18 ) 20 ( 25 )))
+
+(b) Show the enumerations for the tree of (a) that result from doing a preorder
+traversal, an in-order traversal, and a postorder traversal.
+ (Preorder)  15 5 7 20 16 18 25
+ (In-Order)  5 7 15 16 18 20 25
+ (Postorder) 7 5 16 18 25 20 15
+
+5.17) Draw the BST that results from deleting the value 7 from the BST of Figure 5.13(b).
+
+- ((( 2 (( 24 ) 32 ( 37 ( 40 )))) 42 ( 42 )) 120 )
+
+5.19) Completed in src/BinarySearchTree.

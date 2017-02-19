@@ -1,0 +1,72 @@
+% LaTeX file for a 1 page document
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{fullpage}
+\usepackage{url}
+\usepackage{listings}
+
+\lstdefinestyle{basic}{showstringspaces=false,columns=fullflexible,language=Python,
+escapechar=@,xleftmargin=1pc,%
+%basicstyle=\small\bfseries\itshape,%
+%keywordstyle=\underbar,
+mathescape=true,%
+lineskip=-1pt,%
+keepspaces=true,%
+%basicstyle=\small\sffamily,%
+basicstyle=\footnotesize\ttfamily,%
+commentstyle=\mdseries\rmfamily,%
+morekeywords={class,object,with,fun,new,end,int,bool,string},%
+deletekeywords={error,apply,values,and,equal,eq},%
+moredelim=**[is][\color{red}]{`}{`}
+}
+\lstset{style=basic}
+
+\title{C343 Project 5 - Hash Tables in Compression}
+\date{Due 11:59pm, November 11, 2016}
+
+\begin{document}
+\maketitle
+
+\section{Assignment Description}
+
+This week we return to our string compression program, but using our own
+implementation of a hash table.
+
+
+\section{Your Task}
+
+We have given you a complete solution for Project 4, except that we have
+replaced the uses of Java HashMaps with uses of the HashTableImp class,
+defined in \lstinline{HashTableImp.java}. That class has stubs for all
+methods that you need to implement:
+\begin{enumerate}
+\item \lstinline{V get(K key)} - return the value associated with the \lstinline{key}.
+\item \lstinline{V put(K key, V value)} - associates the \lstinline{value} with the \lstinline{key} within the hashtable.
+\item \lstinline{V remove(K key)} - remove the key-value item as specified by \lstinline{key}.
+\item \lstinline{Set<K> keySet()} - return a set containing all the keys
+  in the hashtable.
+\item \lstinline{boolean containsKey(K key)} - returns true if the
+  hashtable contains a mapping for the specified key.
+\item \lstinline{boolean isEmpty()} - returns true if the hashtable contains no key-value mappings.
+\end{enumerate}
+
+We recommend that you implement hashtables using the chaining method
+of collision avoidance and table doubling to control the load factor
+and space consumption of the hash table.
+
+\section{Running Your Code}
+The same instructions for the DNA compression project.
+
+\section{Deliverables}
+
+Your repo folder should contain all the files from the zip.  These are
+the ones you need to modify:
+\begin{itemize}
+\item \lstinline{HashTableImp.java} - containing your hash table implementation and unit tests
+\end{itemize}
+
+\section{Testing}
+The same instructions for the DNA compression project.
+
+\end{document}

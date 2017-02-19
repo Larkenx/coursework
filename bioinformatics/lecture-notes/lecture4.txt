@@ -1,0 +1,20 @@
+d-neighborhood
+    neighbors(Pattern, d)
+    hamming distance(ACG,CCG) == 1  # number of differences, order matters!
+    k = 3, d = 1        k-mer
+    Summation of Permuations(k, d)
+    # k choose d, from i=0 to d. k is length of kmers, d is hamming distance
+    # now we can find all the k-mers within a margin of d hamming distance
+    FrequentWordsWithMismatch(Text, k, d)
+    #There are 4^k possible k-mer neighbors. We compare all given k-mers within
+    #the text, so that means we will be at (4^k)*(|Text| - k + 1)*k
+    #comparisons! A better approach: for every kmer, we put all of its
+    #neighbors into a map. e.g:
+        A k-mer [R]
+        B k-mer [R]
+        C k-mer [R]
+    # Now we can look and see common neighbors with same hamming distance
+    # between the k-mers, and we will find our frequently mismatched k-mer (we
+    # can think of this as a kmer closest to the original k-mer, but was
+    # mutated over time.
+

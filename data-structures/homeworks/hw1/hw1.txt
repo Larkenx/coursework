@@ -1,0 +1,107 @@
+For this homework, I have provided a numbered list of the cases/proofs I have
+    validated for each exercise. They are prefixed with brackets containing [T]
+    or [F] showing if the assumption still stands at that point in the
+    solution.
+
+1.8) Answer given in directory "Exercise 1-8"
+
+2.2)
+    (a) 1. a≡b <-> a+b is even
+        Possible cases: The sum of a & b are even when both ints are even, or
+        both odd. False when they are not both even, or both odd.
+        2.[T] Reflexive: a+a is always even. (Odd: 1+1 = 2, Even: 2+2 = 4)
+        3.[T] Symmetric: if a+b is even, then b+a is even. (Odd: 1 + 3 = 4,
+        Even: 2 + 4 = 6). This is guaranteed by the Commutative Law of Addition
+        4.[T] Transitive: if a+b is even, and b+c is even, a+c is also even.
+        (Odd: 1 + 3 = 4, 3 + 5 = 8, 1 + 5 = 6) (Even: 2 + 4 = 6, 4 + 4 = 8, 2 +
+        4 = 6).
+
+    Therefore, a≡b <-> a+b where a+b is even an equivalence relation.
+
+    (b) 1. a≡b <-> a+b is odd
+        Possible cases: The sum of a and b is odd only when they are mutually
+        exclusive (e.g a is odd and b is even.)
+        2. [F] Reflexive: a+a is always even, so the reflexive case is false
+        and we can now deduce that a≡b <-> a+b is odd is false.
+
+    (e) 1. a≡b iff a - b is an integer where A, B are nonzero rational numbers
+        Possible cases: Both A and B are rational numbers & integers, or
+        both A and B are rational numbers & not integers.
+        2. [T] Reflexive: a - a will always equal zero, an integer.
+        3. [T] Symmetric: if a - b = integer, b - a = integer as well. Based on
+        our first condition, we know that a & b either have to be integers, or
+        rational numbers and not integers. Regardless, the symmetric case
+        holds:
+            a = 3, b = 3; a - b = 0. [T]
+            a = 3.45, b = 2.45; a - b = 1. [T]
+        4. [T] Transitive Case if a - b is an integer, and b - c is an integer,
+            then a - c is also an integer.
+            Let's try both cases again like step 3.
+            Case 1:
+                a = 3, b = 5, c = 2.
+                a - b = integer, b - c = integer, and a - c = integer.
+            Case 2:
+                a = 3.5, b = 2.5, c = 4.5.
+                a - b = integer, b - c = integer, c - a = integer.
+
+            It all checks out, so a≡b iff a - b is an integer is a equivalence
+            realtion.
+2.3)
+   "A binary relation is called a partial order if it is antisymmetric and
+    transitive.
+    • R is reflexive if aRa for all a ∈ S.
+    • R is symmetric if whenever aRb, then bRa, for all a, b ∈ S.
+    • R is antisymmetric if whenever aRb and bRa, then a = b, for all a, b ∈ S.
+    • R is transitive if whenever aRb and bRc, then aRc, for all a, b, c ∈ S."
+
+    (a) "isFatherOf" on the set of people is not a partial ordering since it is
+    not transitive. Counter-example:
+        We have person a, b, and c, and the relationship R for isFatherOf.
+        For the relation to be transitive, aRb, bRc, and aRc all must be true.
+        However, if we assume a is the father of b, and b is the father of c,
+        it is impossbible for a to be the father of c aswell. Therefore, R is
+        not a transitive relation, and by extension, not a partial ordering.
+
+    (b) "isAncestoryOf" on the set of people is not a partial ordering, since
+    the relation is not antisymmetric. Counter-example: A person cannot be an ancestor
+    of themselves (e.g aRb, bRa, where a = b).
+
+    (c) "isOlderThan" on the set of people is also not a partial ordering,
+    since a person cannot be older than oneself (antisymmetric).
+
+    (d)
+
+    (e) The powerset of the set {a, b} is a partial ordering operation, since
+    the powerset is both antisymmetric and transitive
+
+    (f) The powerset ...
+
+2.5) An ADT for a set of integers will include the following functions:
+
+    Interface Integer {
+        ArrayList<Integer> collection;
+
+        // Returns true if given object is an integer, false if otherwise.
+        boolean isInteger(Object n);
+
+        // Returns true if integer exists in collection
+        boolean member(Integer n);
+
+        // Adds new integer to collection
+        void add(Integer n); // Add condition to check if member to prevent duplicates
+
+        // Removes integer from collection
+        void remove(Integer n);
+    }
+
+2.15) Answer given in Permutation directory
+
+2.19)
+
+2.30)
+
+4.7) Write a function to merge two linked lists. The input lists have their elements in sorted order, from lowest to highest. The output list should also be sorted from lowest to highest. Your algorithm should run in linear time on the length of the output list.
+
+4.15) A palindrome is a string that reads the same forwards as backwards. Using only a fixed number of stacks and queues, the stack and queue ADT functions, and a fixed number of int and char variables, write an algorithm to determine if a string is a palindrome. Assume that the string is read from standard input one character at a time. The algorithm should output true or false as appropriate.
+
+Project 4.3) Use singly linked lists to implement integers of unlimited size. Each node of the list should store one digit of the integer. You should implement addition, subtraction, multiplication, and exponentiation operations. Limit exponents to be positive integers. What is the asymptotic running time for each of your operations, expressed in terms of the number of digits for the two operands of each function?
