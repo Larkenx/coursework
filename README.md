@@ -34,7 +34,7 @@ Most of the *code* I've written for this course is based off of homework problem
 
 1. [Finding the Longest Common Sequence](bioinformatics/rosalind-problems/LCS/LCS.py)
 2. [Constructing a DeBruijn Graph](bioinformatics/rosalind-problems/DeBruijn/DeBruijn.py)
-3. [Median String Problem (in Java)](bioinformatics/rosalind-problems/Median String/src/Twelve.java)
+3. [Median String Problem](bioinformatics/rosalind-problems/Median String/src/Twelve.java)
 
 ### Programming Challenges (CSCI-Y390)
 This course was taught using the C programming language exclusively. The purpose of the course was to expose students to very difficult programming challenges in preparation for the International Collegiate Programming Contest. Many of the students (myself included) had never programmed in C previously, so this added an additional level of difficulty for those of us unfamiliar with pointers, structures, or working without our cozy, built-in list data structures.
